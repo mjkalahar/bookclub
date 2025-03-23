@@ -1,3 +1,6 @@
+/*
+ * Kalahar, M. (2025). CIS 530 Intermediate Java Programming. Bellevue University.
+ */
 package com.bookclub;
 
 import org.junit.jupiter.api.Test;

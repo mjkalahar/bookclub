@@ -6,7 +6,7 @@ package com.bookclub;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/*
+/**
  * This class represents a simple Bookclub web application
  */
 @SpringBootApplication
