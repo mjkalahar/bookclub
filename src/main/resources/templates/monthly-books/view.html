@@ -1,0 +1,39 @@
+<!-- Kalahar, M. (2025). CIS 530 Intermediate Java Programming. Bellevue University. --><!-- Kalahar, M. (2025). CIS 530 Intermediate Java Programming. Bellevue University. -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Bookclub | Book.</title>
+
+    <!-- Bootstrap StyleSheet CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+</head>
+
+<body>
+    <div th:insert="~{fragments/header :: header}"></div>
+
+    <div class="container py-5" style="width: 50%">
+        <div class="card">
+            <h3 class="card-title">&nbsp;<span th:text="${book.getTitle()}"></span></h3>
+            <div class="card-body">
+                <strong>ISBN</strong><br/><span th:text="${book.getIsbn()}"></span>
+            </div>
+            <div class="card-body">
+                <strong>Authors</strong>
+                <ul th:each="author : ${book.getAuthors()}">
+                    <li th:text="${author}"></li>
+                </ul>
+            </div>
+            <div class="card-body"><span th:text="${book.getNumOfPages()}"></span> pages
+            </div>
+            <div class="card-body"><em th:text="${book.getDescription()}"></em></div>
+        </div>
+        <a href="/" th:href="@{/}">Return to books</a>
+    </div>
+
+    <div th:insert="~{fragments/scriptFooter :: scriptFooter}"></div>
+</body>
+
+</html>

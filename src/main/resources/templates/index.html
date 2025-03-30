@@ -22,10 +22,23 @@
                 <div class="col-lg-6 col-md-8 mx-auto">
                     <h1 class="fw-light">Book Club</h1>
                     <p class="lead text-muted">
-                        Welcome to the Book Club app, your "one stop shop" for all of your book club needs.  
-                        Below you will find a list of this month's top 10 favorite books.  
+                        Welcome to the Book Club app, your "one stop shop" for all of your book club needs.
+                        Below you will find a list of this month's top 10 favorite books.
                         Select the book to see its details.
                     </p>
+                </div>
+            </div>
+            <div class="row py-lg-5">
+                <div class="col" th:each="book : ${books}">
+                    <p class="card-text">
+                        <span th:text="${book.getTitle()}"></span>
+                        <br />
+                        <small class="text-muted"><em th:text="${book.getDescription()}"></em></small>
+                    </p>
+                    <div class="btn-group">
+                        <a href="#" th:href="@{/{id}(id=${book.getIsbn()})}"
+                            class="btn btn-sm btn-outline-secondary">View</a>
+                    </div>
                 </div>
             </div>
         </section>
