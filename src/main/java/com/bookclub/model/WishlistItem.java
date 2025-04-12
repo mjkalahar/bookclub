@@ -5,11 +5,15 @@ package com.bookclub.model;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.data.annotation.Id;
 
 /**
  * Represents an item on a user's wishlist, containing the ISBN and title of a book.
  */
 public class WishlistItem {
+
+    @Id
+    private String id;
     @NotNull
     @NotEmpty(message = "ISBN is a required field.")
     private String isbn;
@@ -77,14 +81,23 @@ public class WishlistItem {
     }
 
     /**
+     * Gets the Database Id of the book in the wishlist.
+     *
+     * @return The Database Id of the book.
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
      * Returns a string representation of the WishlistItem object.
      *
      * @return A string representation of the WishlistItem object.
      */
     @Override
     public String toString() {
-        return "WishlistItem{" +
-                "isbn='" + isbn + '\'' +
+        return "WishlistItem{id='" + id + '\'' +
+                ", isbn='" + isbn + '\'' +
                 ", title='" + title + '\'' +
                 '}';
     }

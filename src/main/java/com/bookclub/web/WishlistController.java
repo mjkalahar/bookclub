@@ -5,6 +5,7 @@ package com.bookclub.web;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bookclub.model.WishlistItem;
-import com.bookclub.service.impl.MemWishlistDao;
+import com.bookclub.service.dao.WishlistDao;
+import com.bookclub.service.impl.MongoWishlistDao;
 
 import jakarta.validation.Valid;
 
@@ -24,9 +26,21 @@ import jakarta.validation.Valid;
 @RequestMapping("/wishlist")
 public class WishlistController {
 
+    WishlistDao wishlistDao = new MongoWishlistDao();
+
+    /**
+     * Setter for the wishlistDao.
+     * This method is used for dependency injection of the WishlistDao.
+     * @param wishlistDao
+     */
+    @Autowired
+    private void setWishlistDao(WishlistDao wishlistDao) {
+        this.wishlistDao = wishlistDao;
+    }
+
     /**
      * Handles GET requests for displaying the user's wishlist.
-     * Retrieves the wishlist items from the MemWishlistDao and adds them to the model.
+     * Retrieves the wishlist items from the wishlist dao and adds them to the model.
      *
      * @param model The model to add attributes to.
      * @return The name of the view to render (wishlist/list).
@@ -34,8 +48,8 @@ public class WishlistController {
     @RequestMapping(method = RequestMethod.GET)
     public String showWishlist(Model model)
     {
-        MemWishlistDao memWishlistDao = new MemWishlistDao();
-        List<WishlistItem> wishlist = memWishlistDao.list();
+
+        List<WishlistItem> wishlist = wishlistDao.list();
 
         for(WishlistItem wishlistItem : wishlist) {
             System.out.println(wishlistItem.toString());
@@ -63,6 +77,7 @@ public class WishlistController {
      * Handles POST requests for adding a new item to the wishlist.
      * Validates the submitted WishlistItem object and redirects to the wishlist view if successful.
      * If validation fails, returns to the form view with error messages.
+     * If validation passes, calls the add method from wishlist dao
      *
      * @param wishlistItem  The WishlistItem object to add, populated from the form.
      * @param bindingResult The result of the validation.
@@ -77,6 +92,8 @@ public class WishlistController {
         if(bindingResult.hasErrors()) {
             return "wishlist/new";
         }
+
+        wishlistDao.add(wishlistItem);
 
         return "redirect:/wishlist";
     }
