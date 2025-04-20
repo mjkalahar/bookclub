@@ -1,44 +1,56 @@
 <!-- Kalahar, M. (2025). CIS 530 Intermediate Java Programming. Bellevue University. -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-  <head></head>
-  <body>
-    <header th:fragment="header">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head></head>
+<body>
+<header th:fragment="header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-          <a class="navbar-brand" href="/">BookClub</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="/about" th:href="@{/about}"
-                  >About Us</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/contact" th:href="@{/contact}"
-                  >Contact Us</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/wishlist" th:href="@{/wishlist}"
-                >Wishlist</a
-                >
-              </li>
-            </ul>
-          </div>
+            <a class="navbar-brand" href="/">BookClub</a>
+            <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about" th:href="@{/about}"
+                        >About Us</a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact" th:href="@{/contact}"
+                        >Contact Us</a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/wishlist" th:href="@{/wishlist}"
+                        >Wishlist</a
+                        >
+                    </li>
+                </ul>
+            </div>
         </div>
-      </nav>
-    </header>
-  </body>
+        <div class="nav navbar-nav ml-auto w-100 justify-content-center">
+            <div sec:authorize="isAuthenticated()">
+                Logged in as <strong sec:authentication="name"></strong>
+            </div>
+        </div>
+        <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+            <div sec:authorize="isAuthenticated()">
+                <li class="nav-item float-end pe-2">
+                    <a href="/logout" th:href="@{/logout}" class="nav-link float-end">Logout</a>
+                </li>
+            </div>
+        </ul>
+    </nav>
+</header>
+</body>
 </html>
