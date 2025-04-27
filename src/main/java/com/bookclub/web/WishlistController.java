@@ -3,8 +3,6 @@
  */
 package com.bookclub.web;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,22 +38,12 @@ public class WishlistController {
 
     /**
      * Handles GET requests for displaying the user's wishlist.
-     * Retrieves the wishlist items from the wishlist dao and adds them to the model.
      *
-     * @param model The model to add attributes to.
      * @return The name of the view to render (wishlist/list).
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String showWishlist(Model model)
+    public String showWishlist()
     {
-
-        List<WishlistItem> wishlist = wishlistDao.list();
-
-        for(WishlistItem wishlistItem : wishlist) {
-            System.out.println(wishlistItem.toString());
-        }
-
-        model.addAttribute("wishlist", wishlist);
         return "wishlist/list";
     }
 

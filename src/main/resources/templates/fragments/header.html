@@ -44,6 +44,9 @@
             </div>
         </div>
         <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+            <li class="nav-item">
+                <a href="/swagger-ui.html" class="nav-link" target="_blank">OpenAPI Specification</a>
+            </li>
             <div sec:authorize="isAuthenticated()">
                 <li class="nav-item float-end pe-2">
                     <a href="/logout" th:href="@{/logout}" class="nav-link float-end">Logout</a>
