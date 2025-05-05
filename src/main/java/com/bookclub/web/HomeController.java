@@ -7,12 +7,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import com.bookclub.model.Book;
-import com.bookclub.service.impl.MemBookDao;
+import com.bookclub.service.impl.RestBookDao;
 
 
 /**
@@ -33,7 +31,7 @@ public class HomeController {
     @RequestMapping(method = RequestMethod.GET)
     public String showHome(Model model)
     {
-        MemBookDao bookDao = new MemBookDao();
+        RestBookDao bookDao = new RestBookDao();
         List<Book> books = bookDao.list();
 
         for(Book book : books) {
@@ -68,6 +66,11 @@ public class HomeController {
         return "contact";
     }
 
+    @GetMapping("favicon.ico")
+    @ResponseBody
+    void returnNoFavicon() {
+    }
+
      /**
      * Handles GET requests for the Book page.
      *
@@ -81,7 +84,7 @@ public class HomeController {
         String isbn = id;
         System.out.println(id);
 
-        MemBookDao bookDao = new MemBookDao();
+        RestBookDao bookDao = new RestBookDao();
         Book book = bookDao.find(isbn);
 
         System.out.println(book.toString());

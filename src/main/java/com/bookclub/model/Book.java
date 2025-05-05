@@ -3,30 +3,28 @@
  */
 package com.bookclub.model;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Represents a book with its ISBN, title, description, number of pages, and authors.
+ * Represents a book with its ISBN, title, description, number of pages, and info URL.
  */
 public class Book {
     private String isbn;
     private String title;
     private String description;
     private int numOfPages;
-    private List<String> authors;
+    private String infoUrl;
 
     /**
      * Default constructor for the Book class.
      * Initializes an empty book with default values:
-     * - Empty author list
+     * - Empty info Url
      * - Empty ISBN
      * - Empty title
      * - Empty description
      * - 0 number of pages
      */
     public Book() {
-        this.authors = new ArrayList<>();
+        this.infoUrl = "";
         this.isbn = "";
         this.title = "";
         this.description = "";
@@ -39,15 +37,15 @@ public class Book {
      * @param isbn        The ISBN of the book.
      * @param title       The title of the book.
      * @param description The description of the book.
+     * @param infoUrl     The info url of the book.
      * @param numOfPages  The number of pages in the book.
-     * @param authors     The list of authors of the book.
      */
-    public Book(String isbn, String title, String description, int numOfPages, List<String> authors) {
+    public Book(String isbn, String title, String description, String infoUrl, int numOfPages) {
         this.isbn = isbn;
         this.title = title;
         this.description = description;
         this.numOfPages = numOfPages;
-        this.authors = authors;
+        this.infoUrl = infoUrl;
     }
 
     /**
@@ -123,21 +121,21 @@ public class Book {
     }
 
     /**
-     * Gets the list of authors of the book.
+     * Gets the info url of the book
      *
-     * @return The list of authors of the book.
+     * @return The info url of the book.
      */
-    public List<String> getAuthors() {
-        return authors;
+    public String getInfoUrl() {
+        return infoUrl;
     }
 
     /**
-     * Sets the list of authors of the book.
+     * Sets the info url of the book
      *
-     * @param authors The list of authors to set.
+     * @param infoUrl The info url to set.
      */
-    public void setAuthors(List<String> authors) {
-        this.authors = authors;
+    public void setInfoUrl(String infoUrl) {
+        this.infoUrl = infoUrl;
     }
 
 
@@ -148,6 +146,6 @@ public class Book {
      */
     @Override
     public String toString() {
-        return "Book{" + "isbn=" + isbn + ", title=" + title + ", description=" + description + ", numOfPages=" + numOfPages + ", authors=" + authors + '}';
+        return "Book{" + "isbn=" + isbn + ", title=" + title + ", description=" + description + ", infoUrl=" + infoUrl + ", numOfPages=" + numOfPages  + '}';
     }
 }

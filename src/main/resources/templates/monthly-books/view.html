@@ -16,19 +16,16 @@
 
     <div class="container py-5" style="width: 50%">
         <div class="card">
-            <h3 class="card-title">&nbsp;<span th:text="${book.getTitle()}"></span></h3>
-            <div class="card-body">
-                <strong>ISBN</strong><br/><span th:text="${book.getIsbn()}"></span>
+            <h3 class="card-title"><span th:text="${book.getTitle()}"></span></h3>
+            <div class="card-subtitle text-muted">Pages: <span th:text="${book.getNumOfPages()}"></span> pages
             </div>
-            <div class="card-body">
-                <strong>Authors</strong>
-                <ul th:each="author : ${book.getAuthors()}">
-                    <li th:text="${author}"></li>
-                </ul>
+            <div class="card-text">
+                <p>
+                <strong>Description:</strong>
+                <br/><span th:text="${book.getDescription()}"></span>
+                </p>
+                <strong>Web Link:</strong><p><a href="#" th:href="${book.getInfoUrl()}" th:text="${book.getInfoUrl()}"></a></p>
             </div>
-            <div class="card-body"><span th:text="${book.getNumOfPages()}"></span> pages
-            </div>
-            <div class="card-body"><em th:text="${book.getDescription()}"></em></div>
         </div>
         <a href="/" th:href="@{/}">Return to books</a>
     </div>
