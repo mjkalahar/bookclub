@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.bookclub.model.WishlistItem;
@@ -33,40 +35,57 @@ public class MongoWishlistDao implements WishlistDao {
     }
 
     /**
-     * NYI
      * Update an existing WishlistItem in the MongoDB database.
      *
      * @param entity The WishlistItem to update.
      */
     @Override
     public void update(WishlistItem entity) {
+        WishlistItem wishlistItem = mongoTemplate.findById(entity.getId(), WishlistItem.class);
 
+        if(wishlistItem != null) {
+            wishlistItem.setIsbn(entity.getIsbn());
+            wishlistItem.setTitle(entity.getTitle());
+            wishlistItem.setUsername(entity.getUsername());
+        }
+
+        mongoTemplate.save(wishlistItem);
     }
 
     /**
-     * NYI
      * Remove a WishlistItem from the database.
      *
-     * @param entity The WishlistItem to remove.
+     * @param key The WishlistItem's key to remove.
      * @return boolean value if the operation is successful or not
      */
     @Override
-    public boolean remove(WishlistItem entity) {
-        return false;
+    public boolean remove(String key) {
+
+        Query query = new Query();
+
+        query.addCriteria(Criteria.where("id").is(key));
+
+        mongoTemplate.remove(query, WishlistItem.class);
+
+        return true;
     }
 
     /**
-     * Returns the list of all WishlistItems.
+     * Returns the list of all WishlistItems for a username.
      *
+     * @param username The username to lookup objects for
      * @return A List of WishlistItem objects.
      */
     @Override
-    public List<WishlistItem> list() {
-        return mongoTemplate.findAll(WishlistItem.class);
+    public List<WishlistItem> list(String username) {
+        Query query = new Query();
+
+        query.addCriteria(Criteria.where("username").is(username));
+
+        return mongoTemplate.find(query, WishlistItem.class);
     }
 
     /**
-     * NYI
      * Finds a wishlist item by the key.
      *
      * @param key The value to search for in the WishlistItem.
@@ -74,6 +93,6 @@ public class MongoWishlistDao implements WishlistDao {
      */
     @Override
     public WishlistItem find(String key) {
-        return null;
+        return mongoTemplate.findById(key, WishlistItem.class);
     }
 }

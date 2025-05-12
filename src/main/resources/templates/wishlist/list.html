@@ -42,7 +42,8 @@
                     <tr>
                         <td>${book.isbn}</td>
                         <td>${book.title}</td>
-                        <td><a href="#">Edit</a> | <a href="#">Delete</a></td>
+                        <td><a href="/wishlist/${book.id}" th:href="@{/wishlist/${book.id}">Edit</a>
+                        | <a href="/wishlist/delete/${book.id}" th:href="@{/wishlist/delete/${book.id}">Delete</a></td>
                     </tr>
                 `;
             }

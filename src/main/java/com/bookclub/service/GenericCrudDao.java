@@ -30,17 +30,18 @@ public interface GenericCrudDao<E, K> {
     /**
      * Remove an existing entity from the database
      *
-     * @param entity The entity object to delete
+     * @param key The key of object to delete
      * @return boolean value if the operation is successful or not
      */
-    boolean remove(E entity);
+    boolean remove(K key);
 
     /**
      * Returns a list of all entities.
      *
+     * @param key The username for the objects to list
      * @return A List of entities.
      */
-    List<E> list();
+    List<E> list(K key);
 
     /**
      * Finds an entity by its key.

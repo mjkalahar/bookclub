@@ -6,6 +6,7 @@ package com.bookclub.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,9 +48,9 @@ public class WishlistRestController {
      * @return A List containing all WishlistItem objects.
      */
     @RequestMapping(method = RequestMethod.GET)
-    public List<WishlistItem> showWishlist()
+    public List<WishlistItem> showWishlist(Authentication authentication)
     {
-        return wishlistDao.list();
+        return wishlistDao.list(authentication.getName());
     }
 
     /**

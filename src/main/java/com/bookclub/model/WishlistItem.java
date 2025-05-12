@@ -22,6 +22,8 @@ public class WishlistItem {
     @NotEmpty(message = "Title is a required field.")
     private String title;
 
+    private String username;
+
     /**
      * Default constructor for the WishlistItem class.
      * Initializes an empty WishlistItem with default values:
@@ -89,6 +91,18 @@ public class WishlistItem {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     /**
      * Returns a string representation of the WishlistItem object.
      *
@@ -99,6 +113,7 @@ public class WishlistItem {
         return "WishlistItem{id='" + id + '\'' +
                 ", isbn='" + isbn + '\'' +
                 ", title='" + title + '\'' +
+                ", username='" + username + '\'' +
                 '}';
     }
 }
