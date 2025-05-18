@@ -16,9 +16,10 @@ public interface GenericDao<E, K> {
     /**
      * Returns a list of all entities.
      *
+     * @param key The key for the entities to list
      * @return A List of entities.
      */
-    List<E> list();
+    List<E> list(K key);
 
     /**
      * Finds an entity by its key.

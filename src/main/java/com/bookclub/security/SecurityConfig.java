@@ -13,6 +13,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * NOTE: Recommended option from Homework description suggested 
@@ -63,6 +64,7 @@ public class SecurityConfig {
      * Configures the security filter chain.
      * Requires authentication for all requests.
      * Configures form-based login with a custom login page ("/login") accessible to everyone.
+     * Restricts access to monthly books editing to ADMIN role
      * Configures logout functionality, redirecting to "/login?logout=true" upon successful logout,
      * invalidating the HTTP session, and allowing public access to the logout process.
      *
@@ -72,7 +74,12 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(c -> c.anyRequest().authenticated())
+        return http.authorizeHttpRequests(c -> c
+                        .requestMatchers(new AntPathRequestMatcher("/monthly-books/list"),
+                                new AntPathRequestMatcher("/monthly-books/new"),
+                                new AntPathRequestMatcher("/monthly-books")
+                        ).hasRole("ADMIN")
+                        .anyRequest().authenticated())
                 .formLogin(c -> c.loginPage("/login").permitAll())
                 .logout(c -> c.logoutSuccessUrl("/login?logout=true").invalidateHttpSession(true).permitAll())
                 .build();

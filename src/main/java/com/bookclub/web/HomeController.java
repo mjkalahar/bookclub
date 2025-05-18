@@ -3,13 +3,23 @@
  */
 package com.bookclub.web;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bookclub.model.Book;
+import com.bookclub.model.BookOfTheMonth;
+import com.bookclub.service.dao.BookOfTheMonthDao;
+import com.bookclub.service.impl.MongoBookOfTheMonthDao;
 import com.bookclub.service.impl.RestBookDao;
 
 
@@ -21,9 +31,23 @@ import com.bookclub.service.impl.RestBookDao;
 @RequestMapping("/")
 public class HomeController {
 
+    BookOfTheMonthDao bookOfTheMonthDao = new MongoBookOfTheMonthDao();
+
+     /**
+     * Sets the BookOfTheMonthDao dependency.
+     * This method is used by Spring for dependency injection.
+     *
+     * @param bookOfTheMonthDao The BookOfTheMonthDao instance to inject.
+     */
+    @Autowired
+    public void setBookOfTheMonthDao(BookOfTheMonthDao bookOfTheMonthDao) {
+        this.bookOfTheMonthDao = bookOfTheMonthDao;
+    }
     /**
      * 
      * Handles GET requests for the home page.
+     * It determines the current month, fetches the "Book of the Month" entries for that month,
+     * retrieves book details from an external API using their ISBNs, and adds these books to the model.
      *
      * @param model The model to add attributes to.
      * @return The name of the view to render.
@@ -31,12 +55,23 @@ public class HomeController {
     @RequestMapping(method = RequestMethod.GET)
     public String showHome(Model model)
     {
-        RestBookDao bookDao = new RestBookDao();
-        List<Book> books = bookDao.list();
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int calMonth = cal.get(Calendar.MONTH) + 1;
 
-        for(Book book : books) {
-            System.out.println(book.toString());
+        List<BookOfTheMonth> monthlyBooks = bookOfTheMonthDao.list(Integer.toString(calMonth));
+
+        StringBuilder isbnBuilder = new StringBuilder();
+
+        RestBookDao bookDao = new RestBookDao();
+
+        for(BookOfTheMonth monthlyBook : monthlyBooks) {
+            isbnBuilder.append(monthlyBook.getIsbn()).append(",");
         }
+
+        String isbnString = isbnBuilder.toString().substring(0, isbnBuilder.toString().length() - 1);
+        List<Book> books = bookDao.list(isbnString);
 
         model.addAttribute("books", books);
         return "index";
@@ -66,13 +101,19 @@ public class HomeController {
         return "contact";
     }
 
+    /**
+     * Handles GET requests for "favicon.ico".
+     * This method is typically used to prevent 404 errors when browsers request a favicon.
+     * It returns an empty response body.
+     */
     @GetMapping("favicon.ico")
     @ResponseBody
     void returnNoFavicon() {
     }
 
      /**
-     * Handles GET requests for the Book page.
+     * Handles GET requests to display details for a specific book, typically a "Book of the Month".
+     * The book is identified by its ISBN, which is passed as a path variable.
      *
      * @param id Path variable containing the id used in URL
      * @param model The model to add attributes to.

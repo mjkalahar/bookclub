@@ -54,14 +54,14 @@ public class RestBookDao implements BookDao {
     }
 
     /**
-     * Returns the list of all books.
+     * Returns the list of all books by input.
      *
+     * @param key The list of ISBN for books to find.
      * @return A List of Book objects.
      */
     @Override
-    public List<Book> list() {
-        String isbnString = "9780593099322,9780261102361,9780261102378,9780590302715,9780316769532";
-        Object doc = getBooksDoc(isbnString);
+    public List<Book> list(String key) {
+        Object doc = getBooksDoc(key);
 
         List<Book> books = new ArrayList<>();
 
@@ -70,7 +70,7 @@ public class RestBookDao implements BookDao {
         DocumentContext documentContext = JsonPath.using(configuration).parse(doc);
 
         List<String> isbns = JsonPath.read(doc,"$..bib_key");
-        List<String> titles = JsonPath.read(doc, "$..title");
+        List<String> titles = JsonPath.read(doc, "$..details.title");
         List<String> subtitle = documentContext.read("$..details.subtitle");
         List<String> infoUrls = JsonPath.read(doc, "$..info_url");
         List<Integer> pages = documentContext.read("$..details.number_of_pages");
@@ -100,7 +100,7 @@ public class RestBookDao implements BookDao {
     public Book find(String key) {
         Object doc = getBooksDoc(key);
         List<String> isbns = JsonPath.read(doc, "$..bib_key");
-        List<String> titles = JsonPath.read(doc, "$..title");
+        List<String> titles = JsonPath.read(doc, "$..details.title");
         List<String> subtitle = JsonPath.read(doc, "$..details.subtitle");
         List<String> infoUrls = JsonPath.read(doc, "$..info_url");
         List<Integer> pages = JsonPath.read(doc, "$..details.number_of_pages");

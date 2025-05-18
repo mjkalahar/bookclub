@@ -1,0 +1,73 @@
+<!-- Kalahar, M. (2025). CIS 530 Intermediate Java Programming. Bellevue University. -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>BookClub | Monthly Books</title>
+    <!-- Bootstrap StyleSheet CDN -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+    />
+    <script th:inline="javascript">
+        function buildTable(books) {
+            let tableString = `
+                <table class="table">
+                        <tr>
+                            <th>Month</th>
+                            <th>ISBN</th>
+                            <th>Functions</th>
+                        </tr>
+            `;
+
+            for (let book of books) {
+                tableString += `
+                    <tr>
+                        <td>${book.month}</td>
+                        <td>${book.isbn}</td>
+                        <td><a href="/monthly-books/delete/${book.id}" th:href="@{/monthly-books/delete/${book.id}">Delete</a></td>
+                    </tr>
+                `;
+            }
+
+            tableString += `</table>`;
+
+            return tableString;
+        }
+
+        function start() {
+            const booksData = /*[[${books}]]*/ [];
+            document.getElementById('monthly-books').innerHTML = buildTable(booksData);
+        }
+
+        document.addEventListener('DOMContentLoaded', start);
+    </script>
+</head>
+<body>
+
+<div th:insert="~{fragments/header :: header}"></div>
+
+<main>
+    <section class="py-5 text-center container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1>Monthly Books</h1>
+            </div>
+        </div>
+
+        <br />
+
+        <p class="text-center">
+            <a href="/monthly-books/new" th:href="@{/monthly-books/new}" class="btn btn-outline-secondary text-center">New
+                Monthly Book</a>
+        </p>
+        <div id="monthly-books"></div>
+    </section>
+</main>
+
+<div th:insert="~{fragments/scriptFooter :: scriptFooter}"></div>
+
+</body>
+</html>
