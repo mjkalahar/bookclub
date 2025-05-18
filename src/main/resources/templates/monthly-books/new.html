@@ -34,11 +34,6 @@
         <br /><br />
         <div class="row py-lg-5">
             <form action="#" th:action="@{/monthly-books}" th:object="${bookofthemonth}" method="post">
-                <div class="mb-3">
-                    <label for="isbn" class="form-label">ISBN</label>
-                    <input type="text" class="form-control" id="isbn" name="isbn" th:field="*{isbn}"/>
-                    <small th:if="${#fields.hasErrors('isbn')}" style="color: red;" th:errors="*{isbn}"></small>
-                </div>
 
                 <div class="mb-3">
                     <label for="month" class="form-label">Months</label>
@@ -47,12 +42,18 @@
                     </select>
                 </div>
 
+                <div class="mb-3">
+                    <label for="isbn" class="form-label">ISBN</label>
+                    <input type="text" class="form-control" id="isbn" name="isbn" th:field="*{isbn}"/>
+                    <small th:if="${#fields.hasErrors('isbn')}" style="color: red;" th:errors="*{isbn}"></small>
+                </div>
+
                 <div class="save-button-container">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
                 </div>
             </form>
 
-            <a href="/monthly-books" th:href="@{/monthly-books}">Return to monthly books</a>
+            <a href="/monthly-books" th:href="@{/monthly-books}">Return to Monthly Books</a>
         </div>
     </section>
 </main>

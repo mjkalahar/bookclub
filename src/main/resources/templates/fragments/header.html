@@ -35,11 +35,6 @@
                         >Wishlist</a
                         >
                     </li>
-                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                        <a class="nav-link" href="/monthly-books" th:href="@{/monthly-books}"
-                        >Monthly Books</a
-                        >
-                    </li>
                 </ul>
             </div>
         </div>
@@ -51,6 +46,11 @@
         <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
             <li class="nav-item">
                 <a href="/swagger-ui.html" class="nav-link" target="_blank">OpenAPI Specification</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                <a class="nav-link" href="/monthly-books" th:href="@{/monthly-books}"
+                >Monthly Books</a
+                >
             </li>
             <div sec:authorize="isAuthenticated()">
                 <li class="nav-item float-end pe-2">
