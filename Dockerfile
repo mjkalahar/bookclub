@@ -4,15 +4,15 @@ FROM openjdk:17-jdk-slim
 # Set the working directory inside the container
 WORKDIR /app
 
-# Make mvnw executable (required for Linux containers)
-RUN chmod +x mvnw
-
 # Copy the Maven wrapper and pom.xml
 COPY mvnw mvnw.cmd pom.xml ./
 COPY .mvn .mvn
 
 # Copy the source code
 COPY src ./src
+
+# Make mvnw executable (required for Linux containers)
+RUN chmod +x mvnw
 
 # Build the application
 RUN ./mvnw clean package -DskipTests
